@@ -4,7 +4,7 @@ Gstreamer RTSP SSL example
 ## Purpose
 I created this as I was unable to find a Gstreamer RTSP client-server example with SSL handshake.
 
-Thanks to **Mandar Joshi (Github username: mndar)** for immense help and his time in devising SSL portion of this code.
+Thanks to **Mandar Joshi (Github username: mndar https://github.com/mndar)** for immense help and his time in devising SSL portion of this code.
 
 Original discussion post **"Usage examples tls-interaction property for rtspsrc and souphttpsrc"**, leading to this code, can be found here:
 
