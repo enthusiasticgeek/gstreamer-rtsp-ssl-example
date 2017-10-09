@@ -24,6 +24,14 @@ For this example I am using self signed certificates.
 
 1. Adjust the path of the parameters in the file to the desired directory in the file system.
    **rtsp_parameters.conf**
+      
+   RTSP_CA_CERT=/home/enthusiasticgeek/Downloads/gstreamer-rtsp-ssl-example/digital_certificates/gst_ssl_ca.pem
+   RTSP_CERT_PEM=/home/enthusiasticgeek/Downloads/gstreamer-rtsp-ssl-example/digital_certificates/gst_ssl_cert.pem
+   RTSP_CERT_KEY=/home/enthusiasticgeek/Downloads/gstreamer-rtsp-ssl-example/digital_certificates/gst_ssl_cert_decrypt.key
+   RTSP_SERVER_PORT=8554
+   RTSP_SERVER_MOUNT_POINT=/test
+   RTSP_USERNAME=user
+   RTSP_PASSWORD=password
 
 2. Run the following command
    **make**
