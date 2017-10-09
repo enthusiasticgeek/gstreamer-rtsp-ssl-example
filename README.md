@@ -1,7 +1,7 @@
 # gstreamer-rtsp-ssl-example
 Gstreamer RTSP SSL example
 
-# Purpose
+## Purpose
 I created this as I was unable to find a Gstreamer RTSP client-server example with SSL handshake.
 
 Thanks to **Mandar Joshi (Github username: mndar)** for immense help and his time in devising SSL portion of this code.
@@ -16,7 +16,7 @@ https://github.com/mndar/tlsinteraction
 
 For this example I am using self signed certificates.
 
-# In order to run this example
+## In order to run this example
 
 ## Tested on Ubuntu 16.04 LTS (with Gstreamer 1.0 packages installed)
 
