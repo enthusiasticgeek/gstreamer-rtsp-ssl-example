@@ -25,13 +25,7 @@ For this example I am using self signed certificates.
 1. Adjust the path of the parameters in the file to the desired directory in the file system.
    **rtsp_parameters.conf**
       
-   RTSP_CA_CERT, 
-   RTSP_CERT_PEM,   
-   RTSP_CERT_KEY,   
-   RTSP_SERVER_PORT,   
-   RTSP_SERVER_MOUNT_POINT,   
-   RTSP_USERNAME,
-   RTSP_PASSWORD
+   RTSP_CA_CERT, RTSP_CERT_PEM, RTSP_CERT_KEY, RTSP_SERVER_PORT, RTSP_SERVER_MOUNT_POINT, RTSP_USERNAME, RTSP_PASSWORD
 
 2. Run the following command
    **make**
