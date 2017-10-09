@@ -18,7 +18,7 @@ For this example I am using self signed certificates.
 
 ## In order to run this example
 
-## Tested on Ubuntu 16.04 LTS (with Gstreamer 1.0 packages installed)
+### Tested on Ubuntu 16.04 LTS (with Gstreamer 1.0 packages installed)
 
 0. sudo apt-get install libgstreamer1.0-dev libgstrtspserver-1.0-dev gstreamer1.0-*
 
