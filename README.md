@@ -14,7 +14,7 @@ SSL / TLS portion (rtsp_client_tls_interaction.c) of this code was adapted from 
 
 https://github.com/mndar/tlsinteraction
 
-For this example I am using self signed certificates.
+I am using self signed certificates for this example.
 
 ## In order to run this example
 
