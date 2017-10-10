@@ -16,7 +16,7 @@ https://github.com/mndar/tlsinteraction
 
 I have employed self signed certificates for this example.
 
-## In order to run this example
+## Setup And Usage
 
 ### Tested on Ubuntu 16.04 LTS (with Gstreamer 1.0 packages installed)
 
