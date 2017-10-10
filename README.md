@@ -29,14 +29,18 @@ I have employed self signed certificates for this example.
    RTSP_CA_CERT_PEM, RTSP_CERT_PEM, RTSP_CERT_KEY, RTSP_SERVER_PORT, RTSP_SERVER_MOUNT_POINT, RTSP_USERNAME, RTSP_PASSWORD
 
 2. Run the following command
+
    **make**
 
-3. **./rtsp_server**
+3. Open a terminal window and run the following command
+
+   **./rtsp_server**
 
 4. Depending on the parameters
 
-   run
-   ./rtsp_client <URL>
+   run the following in another terminal window.
+   
+   ./rtsp_client **RTSP URL**
 
    e.g. 
    **./rtsp_client rtsps://127.0.0.1:8554/test**
