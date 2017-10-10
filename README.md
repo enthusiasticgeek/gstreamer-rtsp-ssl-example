@@ -32,15 +32,13 @@ I have employed self signed certificates for this example.
 
    **make**
 
-3. Open a terminal window and run the following command
+3. Open a terminal window and run the following command.
 
    **./rtsp_server**
 
-4. Depending on the parameters
-
-   run the following in another terminal window.
+4. Depending on the parameters run the following in another terminal window.
    
-   ./rtsp_client **RTSP URL**
+   **./rtsp_client** **RTSP URL**
 
    e.g. 
    **./rtsp_client rtsps://127.0.0.1:8554/test**
