@@ -41,3 +41,5 @@ For this example I am using self signed certificates.
    **./rtsp_client rtsps://127.0.0.1:8554/test**
 
 5. As long as the certs are correct and the Gstreamer packages are installed one should be able to view the video.
+
+6. **Note:** Currently there is no peer verification on either client or server side. (it may be added in the future)
