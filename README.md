@@ -22,7 +22,8 @@ I have employed self signed certificates for this example.
 
 0. sudo apt-get install libgstreamer1.0-dev libgstrtspserver-1.0-dev gstreamer1.0-*
 
-1. Adjust the path of the parameters in the file to the desired directory in the file system.
+1. Adjust the path of the parameters in the following file to the desired directory in the file system.
+
    **rtsp_parameters.conf**
       
    RTSP_CA_CERT_PEM, RTSP_CERT_PEM, RTSP_CERT_KEY, RTSP_SERVER_PORT, RTSP_SERVER_MOUNT_POINT, RTSP_USERNAME, RTSP_PASSWORD
