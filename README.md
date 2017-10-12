@@ -1,5 +1,5 @@
 # gstreamer-rtsp-ssl-example
-Gstreamer RTSP SSL example
+Gstreamer RTSP SSL/TLS example
 
 ## Purpose
 I created this as I was unable to find a Gstreamer RTSP client-server example with SSL handshake. This example is a manifestation of my quest to understand the same.
