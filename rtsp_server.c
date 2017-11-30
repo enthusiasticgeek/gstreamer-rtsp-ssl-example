@@ -104,13 +104,13 @@ main (int argc, char *argv[])
     GstRTSPServer *server;
     GstRTSPMountPoints *mounts;
     GstRTSPMediaFactory *factory;
-#ifdef WITH_AUTH
+#if WITH_AUTH
     GstRTSPAuth *auth;
     GstRTSPToken *token;
     gchar *basic;
     GstRTSPPermissions *permissions;
 #endif
-#ifdef WITH_TLS
+#if WITH_TLS
     GTlsCertificate *cert;
     GTlsCertificate *ca_cert;
     GError *error = NULL;
@@ -136,11 +136,11 @@ main (int argc, char *argv[])
     server = gst_rtsp_server_new ();
 
     gst_rtsp_server_set_service(server,rtsp_config.rtsp_server_port); //set the port #
-#ifdef WITH_AUTH
+#if WITH_AUTH
     /* make a new authentication manager. it can be added to control access to all
      * the factories on the server or on individual factories. */
     auth = gst_rtsp_auth_new ();
-#ifdef WITH_TLS
+#if WITH_TLS
     g_print("Inside RTSP server's TLS portion\n");
     cert = g_tls_certificate_new_from_files(rtsp_config.rtsp_cert_pem,rtsp_config.rtsp_cert_key,&error);
     //cert = g_tls_certificate_new_from_files("/home/enthusiasticgeek/gstreamer/cert/toyIntermediate.pem","/home/enthusiasticgeek/gstreamer/cert/toyDecryptedIntermediate.key",&error);
@@ -196,7 +196,7 @@ main (int argc, char *argv[])
                                        "x264enc ! rtph264pay name=pay0 pt=96 "
                                        "audiotestsrc ! audio/x-raw,rate=8000 ! "
                                        "alawenc ! rtppcmapay name=pay1 pt=97 " ")");
-#ifdef WITH_AUTH
+#if WITH_AUTH
     /* add permissions for the user media role */
     permissions = gst_rtsp_permissions_new ();
     gst_rtsp_permissions_add_role (permissions, rtsp_config.rtsp_server_username,
@@ -205,7 +205,7 @@ main (int argc, char *argv[])
                                    GST_RTSP_PERM_MEDIA_FACTORY_CONSTRUCT, G_TYPE_BOOLEAN, TRUE, NULL);
     gst_rtsp_media_factory_set_permissions (factory, permissions);
     gst_rtsp_permissions_unref (permissions);
-#ifdef WITH_TLS
+#if WITH_TLS
     gst_rtsp_media_factory_set_profiles (factory, GST_RTSP_PROFILE_SAVP);
 #endif
 #endif
@@ -225,7 +225,7 @@ main (int argc, char *argv[])
     g_timeout_add_seconds (2, (GSourceFunc) timeout, server);
 
     /* start serving, this never stops */
-#ifdef WITH_TLS
+#if WITH_TLS
     g_print ("stream ready at rtsps://127.0.0.1:%s/%s\n", rtsp_config.rtsp_server_port, rtsp_config.rtsp_server_mount_point);
 #else
     g_print ("stream ready at rtsp://127.0.0.1:%s/%s\n", rtsp_config.rtsp_server_port, rtsp_config.rtsp_server_mount_point);
