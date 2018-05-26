@@ -198,6 +198,11 @@ main (int argc, char *argv[])
                                        "audiotestsrc ! audio/x-raw,rate=8000 ! "
                                        "alawenc ! rtppcmapay name=pay1 pt=97 " ")");
    */
+
+   //To find microphone connected to webcam use the command line
+   //See http://oz9aec.net/software/gstreamer/pulseaudio-device-names
+   //pactl list | grep -A2 'Source #' | grep 'Name: .*\.usb' | cut -d" " -f2
+
    /*
     gst_rtsp_media_factory_set_launch (factory, "( "
                                        "v4l2src device=/dev/video2 ! video/x-raw,width=640,height=480,framerate=30/1 ! "
