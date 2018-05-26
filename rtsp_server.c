@@ -198,13 +198,13 @@ main (int argc, char *argv[])
                                        "audiotestsrc ! audio/x-raw,rate=8000 ! "
                                        "alawenc ! rtppcmapay name=pay1 pt=97 " ")");
    */
-/*
+   /*
     gst_rtsp_media_factory_set_launch (factory, "( "
                                        "v4l2src device=/dev/video2 ! video/x-raw,width=640,height=480,framerate=30/1 ! "
                                        "x264enc pass=qual quantizer=20 tune=zerolatency ! rtph264pay name=pay0 pt=96 "
                                        "pulsesrc device=alsa_input.usb-046d_0825_1E32BDE0-02.analog-mono ! audio/x-raw ! "
                                        "alawenc ! rtppcmapay name=pay1 pt=97 " ")");
-*/
+   */
     gst_rtsp_media_factory_set_launch (factory, "( "
                                        "v4l2src device=/dev/video2 ! video/x-raw,width=640,height=480,framerate=30/1 ! "
                                        "x264enc pass=qual quantizer=20 tune=zerolatency ! rtph264pay name=pay0 pt=96 "
