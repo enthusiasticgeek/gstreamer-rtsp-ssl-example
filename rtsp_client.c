@@ -38,15 +38,66 @@ static gboolean bus_call (GstBus *bus,GstMessage *msg, gpointer data) {
     return TRUE;
 }
 
-static void on_pad_added (GstElement *element, GstPad *pad, gpointer data) {
+
+/* Dynamically link */
+static void on_pad_added (GstElement *element, GstPad *pad, gpointer data){
     GstPad *sinkpad;
+    GstPadLinkReturn ret;
     GstElement *decoder = (GstElement *) data;
     /* We can now link this pad with the rtsp-decoder sink pad */
     g_print ("Dynamic pad created, linking source/demuxer\n");
     sinkpad = gst_element_get_static_pad (decoder, "sink");
-    gst_pad_link (pad, sinkpad);
+
+    /* If our converter is already linked, we have nothing to do here */
+    if (gst_pad_is_linked (sinkpad)) {
+        g_print("*** We are already linked ***\n");
+        gst_object_unref (sinkpad);
+        return;
+    } else {
+        g_print("proceeding to linking ...\n");
+    }
+    ret = gst_pad_link (pad, sinkpad);
+
+    if (GST_PAD_LINK_FAILED (ret)) {
+        //failed
+        g_print("failed to link dynamically\n");
+    } else {
+        //pass
+        g_print("dynamically link successful\n");
+    }
+
     gst_object_unref (sinkpad);
 }
+
+/* Dynamically link */
+static void on_pad_removed (GstElement *element, GstPad *pad, gpointer data){
+    GstPad *sinkpad;
+    GstPadLinkReturn ret;
+    GstElement *decoder = (GstElement *) data;
+    /* We can now link this pad with the rtsp-decoder sink pad */
+    g_print ("Dynamic pad created, unlinking source/demuxer\n");
+    sinkpad = gst_element_get_static_pad (decoder, "sink");
+
+    /* If our converter is already linked, we have nothing to do here */
+    if (gst_pad_is_linked (sinkpad)) {
+        g_print("proceeding to unlinking ...\n");
+    } else {
+        g_print("*** We are already unlinked ***\n");
+        gst_object_unref (sinkpad);
+        return;
+    }
+    ret = gst_pad_unlink (pad, sinkpad);
+
+    if (GST_PAD_LINK_FAILED (ret)) {
+        //failed
+        g_print("failed to unlink dynamically\n");
+    } else {
+        //pass
+        g_print("dynamically unlink successful\n");
+    }
+    gst_object_unref (sinkpad);
+}
+
 
 int main (int argc, char *argv[])
 {
@@ -58,13 +109,20 @@ int main (int argc, char *argv[])
 
     GMainLoop *loop;
     GstBus *bus;
-    GstElement *source;
-    GstElement *decoder;
-    GstElement *sink;
     GstElement *pipeline;
-    GstElement *demux;
-    GstElement *parse;
+    GstElement *rtspsrc;
+    GstElement *rtph264depay;
+    GstElement *h264parse;
+    GstElement *avdec_h264;
+    GstElement *videoqueue0;
     GstElement *videoconvert;
+    GstElement *rtppcmadepay;
+    GstElement *alawdec;
+    GstElement *audioqueue0;
+    GstElement *audioconvert;
+
+    GstElement *video_sink; /* The video sink element which receives XOverlay commands */
+    GstElement *audio_sink;
 
     /*config struct*/
     struct config rtsp_config;
@@ -89,36 +147,58 @@ int main (int argc, char *argv[])
     /* Create Pipe's Elements */
     pipeline = gst_pipeline_new ("video player");
     g_assert (pipeline);
-    source   = gst_element_factory_make ("rtspsrc", "Source");
-    g_assert (source);
-    demux = gst_element_factory_make ("rtph264depay", "Depay");
-    g_assert (demux);
-    parse = gst_element_factory_make ("h264parse", "Parse");
-    g_assert (parse);
-    decoder = gst_element_factory_make ("avdec_h264", "Decoder");
-    g_assert (decoder);
-    videoconvert     = gst_element_factory_make ("videoconvert", "VideoConvert");
-    g_assert(videoconvert);
-    sink     = gst_element_factory_make ("autovideosink", "Output");
-    g_assert (sink);
 
-    /*Make sure: Every elements was created ok*/
-    if (!pipeline || !source || !demux || !parse || !decoder || !videoconvert || !sink) {
-        g_printerr ("One of the elements wasn't create... Exiting\n");
-        return -1;
-    }
+    rtspsrc = gst_element_factory_make ("rtspsrc", "rtspsrc0");
+    g_assert (rtspsrc);
 
-    g_print(" \nPipeline is Part(A) ->(dynamic/runtime link)  Part(B)[ Part(B-1) -> Part(B-2) -> Part(B-3) ]\n\n");
-    g_print(" [source](dynamic)->(dynamic)[demux]->[parse]->[decoder]->[videoconvert]->[videosink] \n\n");
+
+    //Video elements
+    rtph264depay = gst_element_factory_make ("rtph264depay", "rtph264depay0");
+    g_assert (rtph264depay);
+    h264parse = gst_element_factory_make ("h264parse", "h264parse0");
+    g_assert (h264parse);
+    avdec_h264 = gst_element_factory_make ("decodebin", "avdec_h2640");
+    g_assert (avdec_h264);
+    videoqueue0 = gst_element_factory_make ("queue", "videoqueue0");
+    g_assert (videoqueue0);
+    videoconvert = gst_element_factory_make ("videoconvert", "videoconvert0");
+    g_assert (videoconvert);
+    //Video Sink
+    //video_sink = gst_element_factory_make ("autovideosink", "autovideosink0");
+    video_sink = gst_element_factory_make ("xvimagesink", "glimagesink0");
+    g_assert (video_sink);
+    //video
+    g_object_set (G_OBJECT (video_sink), "sync", FALSE, NULL);
+    //g_object_set (G_OBJECT (video_sink), "async-handling", TRUE, NULL);
+
+
+    //Audio Elements
+    rtppcmadepay = gst_element_factory_make ("rtppcmadepay",  "rtppcmadepay0");
+    g_assert(rtppcmadepay);
+    alawdec = gst_element_factory_make ("decodebin", "alawdec0");
+    g_assert (alawdec);
+    audioqueue0 = gst_element_factory_make ("queue", "audioqueue0");
+    g_assert (audioqueue0);
+    audioconvert = gst_element_factory_make ("audioconvert", "audioconvert0");
+    g_assert (audioconvert);
+    //Audio Sink
+    //audio_sink = gst_element_factory_make ("autoaudiosink", "autoaudiosink0");
+    audio_sink = gst_element_factory_make ("autoaudiosink", "autoaudiosink0");
+    g_assert (audio_sink);
+    //audio
+    g_object_set (G_OBJECT (audio_sink), "sync", FALSE, NULL);
+    //g_object_set (G_OBJECT (audio_sink), "async-handling", TRUE, NULL);
+
+
 
     /* Set video Source */
-    g_object_set (G_OBJECT (source), "location", argv[1], NULL);
-    g_object_set (G_OBJECT (source), "do-rtcp", TRUE, NULL);
-    g_object_set (G_OBJECT (source), "latency", 0, NULL);
-    g_object_set (G_OBJECT (source), "user-id", rtsp_config.rtsp_server_username, NULL);
-    //g_object_set (G_OBJECT (source), "user-id", "user", NULL);
-    g_object_set (G_OBJECT (source), "user-pw", rtsp_config.rtsp_server_password, NULL);
-    //g_object_set (G_OBJECT (source), "user-pw", "password", NULL);
+    g_object_set (G_OBJECT (rtspsrc), "location", argv[1], NULL);
+    g_object_set (G_OBJECT (rtspsrc), "do-rtcp", TRUE, NULL);
+    g_object_set (G_OBJECT (rtspsrc), "latency", 0, NULL);
+    g_object_set (G_OBJECT (rtspsrc), "user-id", rtsp_config.rtsp_server_username, NULL);
+    //g_object_set (G_OBJECT (rtspsrc), "user-id", "user", NULL);
+    g_object_set (G_OBJECT (rtspsrc), "user-pw", rtsp_config.rtsp_server_password, NULL);
+    //g_object_set (G_OBJECT (rtspsrc), "user-pw", "password", NULL);
 
     /*
     typedef enum {
@@ -158,8 +238,8 @@ int main (int argc, char *argv[])
     */
 
     //validate all
-    //g_object_set (G_OBJECT (source), "tls-validation-flags", G_TLS_CERTIFICATE_VALIDATE_ALL, NULL);
-    g_object_set (G_OBJECT (source), "tls-validation-flags", G_TLS_CERTIFICATE_INSECURE, NULL);
+    //g_object_set (G_OBJECT (rtspsrc), "tls-validation-flags", G_TLS_CERTIFICATE_VALIDATE_ALL, NULL);
+    g_object_set (G_OBJECT (rtspsrc), "tls-validation-flags", G_TLS_CERTIFICATE_INSECURE, NULL);
     GTlsCertificate *cert;
     GError *error=NULL;
     cert = g_tls_certificate_new_from_files(rtsp_config.rtsp_cert_pem,rtsp_config.rtsp_cert_key,&error);
@@ -179,37 +259,76 @@ int main (int argc, char *argv[])
         return -1;
     }
 
-    g_object_set (G_OBJECT (source), "tls-database", database, NULL);
+    g_object_set (G_OBJECT (rtspsrc), "tls-database", database, NULL);
     RtspClientTlsInteraction *interaction =
         rtsp_client_tls_interaction_new (cert, ca_cert, database);
 
-    g_object_set (G_OBJECT (source), "tls-interaction", interaction, NULL);
+    g_object_set (G_OBJECT (rtspsrc), "tls-interaction", interaction, NULL);
 
     /* Putting a Message handler */
     bus = gst_pipeline_get_bus (GST_PIPELINE (pipeline));
     gst_bus_add_watch (bus, bus_call, loop);
     gst_object_unref (bus);
 
-    /* Add Elements to the Bin */
-    gst_bin_add_many (GST_BIN (pipeline), source, demux, parse, decoder, videoconvert, sink, NULL);
 
-    /* Link confirmation */
-    if (!gst_element_link_many (demux, parse, decoder, videoconvert, sink, NULL)) {
-        g_warning ("Linking part (B) Fail...");
+
+
+    //Make sure: Every elements was created ok
+    if (!pipeline || !rtspsrc || !rtph264depay || !h264parse || !avdec_h264 || !videoqueue0 || !videoconvert || !rtppcmadepay || !alawdec || !audioqueue0 || !audioconvert || !audio_sink) {
+        g_printerr ("One of the elements wasn't created... Exiting\n");
+        return -1;
     }
 
-    g_print("\nNote that the source will be linked to the demuxer(depayload) dynamically.\n"
-            "The reason is that rtspsrc may contain various elements (for example\n"
-            "audio and video). The source pad(s) will be created at run time,\n"
-            "by the rtspsrc when it detects the amount and nature of elements.\n"
-            "Therefore we connect a callback function which will be executed\n"
-            "when the \"pad-added\" is emitted.\n");
+    // Add Elements to the Bin
+    gst_bin_add_many (GST_BIN (pipeline), rtspsrc, rtph264depay, h264parse, avdec_h264, videoqueue0, videoconvert, video_sink, rtppcmadepay, alawdec, audioqueue0, audioconvert, audio_sink, NULL);
 
-    /* Dynamic Pad Creation */
-    if(! g_signal_connect (source, "pad-added", G_CALLBACK (on_pad_added),demux))
+    // Link confirmation
+    if (!gst_element_link_many (rtph264depay, h264parse, avdec_h264, NULL)){
+        g_warning ("Linking part (A)-1 Fail...");
+        return -2;
+    }
+    //Linking order is important -> start linking all elements from left (near rtspsrc) to right (near videosink)
+    // Link confirmation
+    if (!gst_element_link_many (rtppcmadepay, alawdec, NULL)){
+        g_warning ("Linking part (B)-1 Fail...");
+        return -3;
+    }
+    // Link confirmation
+    if (!gst_element_link_many (videoqueue0, videoconvert, video_sink, NULL)){
+        g_warning ("Linking part (A)-2 Fail...");
+        return -4;
+    }
+    // Link confirmation
+    if (!gst_element_link_many (audioqueue0, audioconvert, audio_sink, NULL)){
+        g_warning ("Linking part (B)-2 Fail...");
+        return -5;
+    }
+
+    // Dynamic Pad Creation
+    if(! g_signal_connect (rtspsrc, "pad-added", G_CALLBACK (on_pad_added),rtph264depay))
     {
-        g_warning ("Linking part (A) with part (B) Fail...");
+        g_warning ("Linking part (1) with part (A)-1 Fail...");
     }
+
+    // Dynamic Pad Creation
+    if(! g_signal_connect (avdec_h264, "pad-added", G_CALLBACK (on_pad_added),videoqueue0))
+    {
+        g_warning ("Linking part (2) with part (A)-2 Fail...");
+    }
+
+    // Dynamic Pad Creation
+    if(! g_signal_connect (rtspsrc, "pad-added", G_CALLBACK (on_pad_added),rtppcmadepay))
+    {
+        g_warning ("Linking part (1) with part (B)-1 Fail...");
+    }
+
+    // Dynamic Pad Creation
+    if(! g_signal_connect (alawdec, "pad-added", G_CALLBACK (on_pad_added),audioqueue0))
+    {
+        g_warning ("Linking part (2) with part (B)-2 Fail...");
+    }
+
+
     /* Run the pipeline */
     g_print ("Playing: %s\n", argv[1]);
     gst_element_set_state (pipeline, GST_STATE_PLAYING);
