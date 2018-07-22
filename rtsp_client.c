@@ -164,8 +164,7 @@ int main (int argc, char *argv[])
     videoconvert = gst_element_factory_make ("videoconvert", "videoconvert0");
     g_assert (videoconvert);
     //Video Sink
-    //video_sink = gst_element_factory_make ("autovideosink", "autovideosink0");
-    video_sink = gst_element_factory_make ("xvimagesink", "glimagesink0");
+    video_sink = gst_element_factory_make ("autovideosink", "autovideosink0");
     g_assert (video_sink);
     //video
     g_object_set (G_OBJECT (video_sink), "sync", FALSE, NULL);
@@ -182,7 +181,6 @@ int main (int argc, char *argv[])
     audioconvert = gst_element_factory_make ("audioconvert", "audioconvert0");
     g_assert (audioconvert);
     //Audio Sink
-    //audio_sink = gst_element_factory_make ("autoaudiosink", "autoaudiosink0");
     audio_sink = gst_element_factory_make ("autoaudiosink", "autoaudiosink0");
     g_assert (audio_sink);
     //audio
