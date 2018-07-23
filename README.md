@@ -54,6 +54,7 @@ I have employed self signed certificates for this example.
 **For MAC OSX**
 
 1. Install pkg-config using homebrew
+    
     brew install pkg-config
     
 2. Follow the installation of Gstreamer binaries on OSX https://gstreamer.freedesktop.org/documentation/installing/on-mac-osx.html
