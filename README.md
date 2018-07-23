@@ -50,3 +50,13 @@ I have employed self signed certificates for this example.
 5. As long as the certs are correct and the Gstreamer packages are installed one should be able to view the video.
 
 6. **Note:** Currently there is no root/intermediate CA peer verification on either client or server side. (it may be added in the future)
+
+**For MAC OSX**
+
+1. Install pkg-config using homebrew
+    brew install pkg-config
+    
+2. Follow the installation of Gstreamer binaries on OSX https://gstreamer.freedesktop.org/documentation/installing/on-mac-osx.html
+
+3. export PKG_CONFIG_PATH=/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/pkgconfig/  
+   #Adjust above path as appropriate for one's installation and follow same steps 1 through 6 as Ubuntu 
