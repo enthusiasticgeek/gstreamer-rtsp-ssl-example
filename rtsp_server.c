@@ -191,13 +191,13 @@ main (int argc, char *argv[])
      * any launch line works as long as it contains elements named pay%d. Each
      * element with pay%d names will be a stream */
     factory = gst_rtsp_media_factory_new ();
-    /*
+    
     gst_rtsp_media_factory_set_launch (factory, "( "
                                        "videotestsrc ! video/x-raw,width=352,height=288,framerate=15/1 ! "
                                        "x264enc ! rtph264pay name=pay0 pt=96 "
                                        "audiotestsrc ! audio/x-raw,rate=8000 ! "
                                        "alawenc ! rtppcmapay name=pay1 pt=97 " ")");
-   */
+   
 
    //To find microphone connected to webcam use the command line
    //See http://oz9aec.net/software/gstreamer/pulseaudio-device-names
@@ -210,12 +210,13 @@ main (int argc, char *argv[])
                                        "pulsesrc device=alsa_input.usb-046d_0825_1E32BDE0-02.analog-mono ! audio/x-raw ! "
                                        "alawenc ! rtppcmapay name=pay1 pt=97 " ")");
    */
+    /*
     gst_rtsp_media_factory_set_launch (factory, "( "
                                        "v4l2src device=/dev/video2 ! video/x-raw,width=640,height=480,framerate=30/1 ! "
                                        "x264enc pass=qual quantizer=20 tune=zerolatency ! rtph264pay name=pay0 pt=96 "
                                        "pulsesrc device=alsa_input.pci-0000_00_1f.3.analog-stereo ! audio/x-raw ! "
                                        "alawenc ! rtppcmapay name=pay1 pt=97 " ")");
-
+    */
 
 #if WITH_AUTH
     /* add permissions for the user media role */
