@@ -107,7 +107,7 @@ static void rtsp_client_tls_interaction_class_init (RtspClientTlsInteractionClas
 }
 
 RtspClientTlsInteraction * rtsp_client_tls_interaction_new (GTlsCertificate *cert_key, GTlsCertificate *ca_cert, GTlsDatabase* database) {
-    RtspClientTlsInteraction *interaction = g_object_new (RTSP_CLIENT_TLS_INTERACTION, NULL);
+    RtspClientTlsInteraction *interaction = g_object_new (RTSP_CLIENT_TLS_INTERACTION_TYPE, NULL);
     interaction->cert_key = cert_key;
     interaction->ca_cert = ca_cert;
     interaction->database = database;
