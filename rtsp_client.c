@@ -128,13 +128,13 @@ int main (int argc, char *argv[])
     struct config rtsp_config;
     rtsp_config = get_config(FILENAME);
     // Struct members
-    printf("%s",rtsp_config.rtsp_ca_cert);
-    printf("%s",rtsp_config.rtsp_cert_pem);
-    printf("%s",rtsp_config.rtsp_cert_key);
-    printf("%s",rtsp_config.rtsp_server_port);
-    printf("%s",rtsp_config.rtsp_server_mount_point);
-    printf("%s",rtsp_config.rtsp_server_username);
-    printf("%s",rtsp_config.rtsp_server_password);
+    printf("%s\n",rtsp_config.rtsp_ca_cert);
+    printf("%s\n",rtsp_config.rtsp_cert_pem);
+    printf("%s\n",rtsp_config.rtsp_cert_key);
+    printf("%s\n",rtsp_config.rtsp_server_port);
+    printf("%s\n",rtsp_config.rtsp_server_mount_point);
+    printf("%s\n",rtsp_config.rtsp_server_username);
+    printf("%s\n",rtsp_config.rtsp_server_password);
 
 
     /* Initializing GStreamer */
