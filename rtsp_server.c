@@ -205,14 +205,14 @@ main (int argc, char *argv[])
 
    /*
     gst_rtsp_media_factory_set_launch (factory, "( "
-                                       "v4l2src device=/dev/video2 ! video/x-raw,width=640,height=480,framerate=30/1 ! "
+                                       "v4l2src device=/dev/video2 ! videoconvert ! video/x-raw,width=640,height=480,framerate=30/1 ! "
                                        "x264enc pass=qual quantizer=20 tune=zerolatency ! rtph264pay name=pay0 pt=96 "
                                        "pulsesrc device=alsa_input.usb-046d_0825_1E32BDE0-02.analog-mono ! audio/x-raw ! "
                                        "alawenc ! rtppcmapay name=pay1 pt=97 " ")");
    */
     /*
     gst_rtsp_media_factory_set_launch (factory, "( "
-                                       "v4l2src device=/dev/video2 ! video/x-raw,width=640,height=480,framerate=30/1 ! "
+                                       "v4l2src device=/dev/video2 ! videoconvert ! video/x-raw,width=640,height=480,framerate=30/1 ! "
                                        "x264enc pass=qual quantizer=20 tune=zerolatency ! rtph264pay name=pay0 pt=96 "
                                        "pulsesrc device=alsa_input.pci-0000_00_1f.3.analog-stereo ! audio/x-raw ! "
                                        "alawenc ! rtppcmapay name=pay1 pt=97 " ")");
