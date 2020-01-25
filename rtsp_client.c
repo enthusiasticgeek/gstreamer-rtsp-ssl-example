@@ -164,7 +164,8 @@ int main (int argc, char *argv[])
     videoconvert = gst_element_factory_make ("videoconvert", "videoconvert0");
     g_assert (videoconvert);
     //Video Sink
-    video_sink = gst_element_factory_make ("autovideosink", "autovideosink0");
+    //video_sink = gst_element_factory_make ("autovideosink", "autovideosink0");
+    video_sink = gst_element_factory_make ("ximagesink", "autovideosink0");
     g_assert (video_sink);
     //video
     g_object_set (G_OBJECT (video_sink), "sync", FALSE, NULL);
@@ -236,8 +237,8 @@ int main (int argc, char *argv[])
     */
 
     //validate all
-    //g_object_set (G_OBJECT (rtspsrc), "tls-validation-flags", G_TLS_CERTIFICATE_VALIDATE_ALL, NULL);
-    g_object_set (G_OBJECT (rtspsrc), "tls-validation-flags", G_TLS_CERTIFICATE_INSECURE, NULL);
+    g_object_set (G_OBJECT (rtspsrc), "tls-validation-flags", G_TLS_CERTIFICATE_VALIDATE_ALL, NULL);
+    //g_object_set (G_OBJECT (rtspsrc), "tls-validation-flags", G_TLS_CERTIFICATE_INSECURE, NULL);
     GTlsCertificate *cert;
     GError *error=NULL;
     cert = g_tls_certificate_new_from_files(rtsp_config.rtsp_cert_pem,rtsp_config.rtsp_cert_key,&error);

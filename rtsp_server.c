@@ -228,7 +228,7 @@ main (int argc, char *argv[])
     gst_rtsp_media_factory_set_permissions (factory, permissions);
     gst_rtsp_permissions_unref (permissions);
 #if WITH_TLS
-    gst_rtsp_media_factory_set_profiles (factory, GST_RTSP_PROFILE_SAVP);
+    gst_rtsp_media_factory_set_profiles (factory, GST_RTSP_PROFILE_SAVP | GST_RTSP_PROFILE_SAVPF);
 #endif
 #endif
 
