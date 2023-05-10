@@ -93,7 +93,7 @@ Here is an example of how to update code that uses GTimeVal to use GDateTime:
               547 | struct _GTimeVal
                   |        ^~~~~~~~~
 
-Potential fix may be as follows:
+Potential fix (suggested by ChatGPT 4) may be as follows:
 
             // Old code using GTimeVal
             GTimeVal current_time;
