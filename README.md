@@ -64,11 +64,12 @@ I have employed self signed certificates for this example.
 
 1. Install pkg-config using homebrew
     
-    brew install pkg-config
+    **brew install pkg-config**
     
 2. Follow the installation of Gstreamer binaries on OSX https://gstreamer.freedesktop.org/documentation/installing/on-mac-osx.html
 
-3. export PKG_CONFIG_PATH=/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/pkgconfig/  
+3. **export PKG_CONFIG_PATH=/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/pkgconfig/** 
+
    #Adjust above path as appropriate for one's installation and follow same steps 1 through 6 as Ubuntu 
 
 **=== !!! Compiler warnings Glibc >= 2.62 !!! ===**
