@@ -58,7 +58,7 @@ I have employed self signed certificates for this example.
 
 5. As long as the certs are correct and the Gstreamer packages are installed one should be able to view the video.
 
-6. **Note:** Currently there is no root/intermediate CA peer verification on either client or server side. (it may be added in the future)
+6. **Note:** ~~Currently there is no root/intermediate CA peer verification on either client or server side. (it may be added in the future)~~
 
 **For MAC OSX**
 
