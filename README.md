@@ -1,6 +1,8 @@
 # gstreamer-rtsp-ssl-example
 Gstreamer Video Streaming using RTSP SSL/TLS example
 
+![alt text]( https://github.com/enthusiasticgeek/gstreamer-rtsp-ssl-example/blob/master/gst_test.png "example output")
+
 **Important:**
 
 This is SSL but still insecure. See last bullet point on this page.
