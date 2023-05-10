@@ -14,7 +14,8 @@ Thanks to **Mandar Joshi (Github username: mndar https://github.com/mndar)** for
 
 Original discussion post **"Usage examples tls-interaction property for rtspsrc and souphttpsrc"**, leading to this code, can be found here:
 
-http://gstreamer-devel.966125.n4.nabble.com/Usage-examples-tls-interaction-property-for-rtspsrc-and-souphttpsrc-td4684845.html
+~~http://gstreamer-devel.966125.n4.nabble.com/Usage-examples-tls-interaction-property-for-rtspsrc-and-souphttpsrc-td4684845.html~~
+https://gstreamer-devel.narkive.com/W6TOjQei/usage-examples-tls-interaction-property-for-rtspsrc-and-souphttpsrc
 
 SSL / TLS portion (rtsp_client_tls_interaction.c) of this code was adapted from the following URL with the Author's permission.
 
