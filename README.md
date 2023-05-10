@@ -32,6 +32,7 @@ I have employed self signed certificates for this example.
    For convenience a script is provided for Debian based OSes.
 
    **sudo chmod a+x install_deps_debian.sh**
+   
    **sudo ./install_deps_debian.sh**
 
 1. Adjust the path of the parameters in the following file to the desired directory in the file system.
