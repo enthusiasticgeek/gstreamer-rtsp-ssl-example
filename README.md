@@ -63,3 +63,47 @@ I have employed self signed certificates for this example.
 
 3. export PKG_CONFIG_PATH=/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/pkgconfig/  
    #Adjust above path as appropriate for one's installation and follow same steps 1 through 6 as Ubuntu 
+
+**=== !!! Compiler warnings Glibc >= 2.62 !!! ===**
+
+This warning indicates that you are using a deprecated data type, GTimeVal, in your code. The GTimeVal data type has been deprecated since GLib 2.62 and will be removed in a future version.
+To avoid this warning, you should update your code to use the recommended replacement, GDateTime. GDateTime is a more modern data type that provides improved functionality for working with dates and times.
+To update your code to use GDateTime:
+Replace all occurrences of GTimeVal with GDateTime.
+Update any function calls that accept or return GTimeVal to use the corresponding GDateTime functions instead.
+Here is an example of how to update code that uses GTimeVal to use GDateTime:
+
+            gcc -g rtsp_server.c -o rtsp_server `/usr/bin/pkg-config gstreamer-1.0 gstreamer-rtsp-1.0 gstreamer-rtsp-server-1.0 --libs --cflags` 
+            In file included from /usr/include/gstreamer-1.0/gst/rtsp/gstrtsp.h:24,
+                             from /usr/include/gstreamer-1.0/gst/rtsp/rtsp.h:27,
+                             from /usr/include/gstreamer-1.0/gst/rtsp-server/rtsp-media.h:21,
+                             from /usr/include/gstreamer-1.0/gst/rtsp-server/rtsp-session.h:58,
+                             from /usr/include/gstreamer-1.0/gst/rtsp-server/rtsp-session-pool.h:33,
+                             from /usr/include/gstreamer-1.0/gst/rtsp-server/rtsp-server-object.h:32,
+                             from /usr/include/gstreamer-1.0/gst/rtsp-server/rtsp-server.h:28,
+                             from rtsp_server.c:26:
+            /usr/include/gstreamer-1.0/gst/rtsp/gstrtspconnection.h:79:1: warning: ‘GTimeVal’ is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+               79 | GstRTSPResult      gst_rtsp_connection_connect                (GstRTSPConnection * conn, GTimeVal * timeout);
+                  | ^~~~~~~~~~~~~
+            In file included from /usr/include/glib-2.0/glib/galloca.h:32,
+                             from /usr/include/glib-2.0/glib.h:30,
+                             from /usr/include/gstreamer-1.0/gst/gst.h:27,
+                             from rtsp_server.c:25:
+            /usr/include/glib-2.0/glib/gtypes.h:547:8: note: declared here
+              547 | struct _GTimeVal
+                  |        ^~~~~~~~~
+
+Potential fix may be as follows:
+
+            // Old code using GTimeVal
+            GTimeVal current_time;
+            g_get_current_time(&current_time);
+            g_print("Current time: %ld\n", current_time.tv_sec);
+
+            // Updated code using GDateTime
+            GDateTime *current_time = g_date_time_new_now_local();
+            g_print("Current time: %s\n", g_date_time_format(current_time, "%s"));
+            g_date_time_unref(current_time);
+
+In this example, the g_get_current_time() function has been replaced with g_date_time_new_now_local(), which returns a new GDateTime object representing the current local time. The tv_sec field of the GTimeVal structure has been replaced with the g_date_time_format() function, which formats the GDateTime object as a string. Finally, the current_time object must be explicitly freed using g_date_time_unref().
+By updating your code to use GDateTime, you can avoid this warning and ensure that your code remains compatible with future versions of GLib.
