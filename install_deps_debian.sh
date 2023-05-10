@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$EUID" -ne 0 ];then
+  printf "*** Please run as root ***\n"
+  exit 1
+fi
 echo -ne "*** Installing libraries/dependencies ***\n"
 sudo apt-get update
 declare -a PACKAGES=( 'libgstreamer1.0-dev' 'libgstrtspserver-1.0-dev' 'gstreamer1.0-libav' 'gstreamer1.0-libav' 'gstreamer1.0-plugins-bad' 'gstreamer1.0-plugins-ugly' 'libx264-dev' )
