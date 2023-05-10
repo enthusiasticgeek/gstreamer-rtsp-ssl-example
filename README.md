@@ -5,7 +5,7 @@ Gstreamer Video Streaming using RTSP SSL/TLS example
 
 **Important:**
 
-This is SSL but still insecure. See last bullet point on this page.
+~~This is SSL but still insecure. See last bullet point on this page.~~
 
 ## Purpose
 I created this as I was unable to find a Gstreamer RTSP client-server example with SSL handshake. This example is a manifestation of my quest to understand the same.
