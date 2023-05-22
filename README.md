@@ -27,7 +27,7 @@ I have employed self signed certificates for this example.
 
 ### Tested on Ubuntu 16.04/18.04/20.04/22.04 LTS (with Gstreamer 1.0 packages installed)
 
-0. **sudo apt-get install libgstreamer1.0-dev libgstrtspserver-1.0-dev gstreamer1.0-libav gstreamer1.0-libav gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly libx264-dev && sudo apt install gstreamer1.0-***
+0. **sudo apt-get install libgstreamer1.0-dev libgstrtspserver-1.0-dev gstreamer1.0-libav gstreamer1.0-libav gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly libx264-dev -y && sudo apt install gstreamer1.0-* -y **
 
    For convenience a script is provided for Debian based OSes.
 
